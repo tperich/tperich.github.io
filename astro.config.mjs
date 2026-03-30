@@ -2,6 +2,10 @@
 import { defineConfig } from 'astro/config';
 import { loadEnv } from 'vite';
 
+import react from '@astrojs/react';
+
+import tailwindcss from '@tailwindcss/vite';
+
 const env = loadEnv(process.env.NODE_ENV ?? 'production', process.cwd(), '');
 
 if (!env.SITE_URL) {
@@ -9,6 +13,11 @@ if (!env.SITE_URL) {
 }
 
 export default defineConfig({
-    site: env.SITE_URL,
-    base: env.SITE_BASE || '/',
+  site: env.SITE_URL,
+  base: env.SITE_BASE || '/',
+  integrations: [react()],
+
+  vite: {
+    plugins: [tailwindcss()]
+  }
 });
