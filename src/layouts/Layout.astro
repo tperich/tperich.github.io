@@ -1,5 +1,6 @@
 ---
 import { config } from '../config';
+import { Header } from '@/components/Header';
 import '../styles/global.css';
 import '../styles/colors.scss';
 ---
@@ -12,9 +13,11 @@ import '../styles/colors.scss';
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{config.siteName}</title>
+		<meta name="description" content={config.siteDescription} />
+		<title>{config.siteTitle}</title>
 	</head>
 	<body>
+		<Header />
 		<slot />
 	</body>
 </html>
