@@ -1,7 +1,7 @@
 export const config = {
-  siteTitle: 'Tomislav Peric',
+  siteTitle: 'Tomislav Perić',
   siteDescription:
-    'Sysadmin, security enthusiast, and builder of practical tools for automation, monitoring, and bug bounty workflows.',
+    'Full-stack, DevOps, and security engineer shipping web + mobile products with production-grade CI/CD, quality gates, and practical security by default.',
   nav: [
     { label: 'About', href: '#about' },
     { label: 'Projects', href: '#projects' },
@@ -10,7 +10,7 @@ export const config = {
   ],
   links: {
     github: 'https://github.com/tperich',
-    linkedin: 'https://www.linkedin.com',
-    email: 'mailto:hello@tperic.dev',
+    linkedin: 'https://www.linkedin.com/in/tomislav-peric',
+    email: 'mailto:tomislavperich@protonmail.com',
   },
 };

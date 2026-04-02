@@ -1,18 +1,18 @@
 export const skillGroups = [
   {
-    title: 'Security & Testing',
-    items: ['Web App Testing', 'AuthZ / IDOR', 'API Security', 'Recon Automation'],
+    title: 'Frontend & Mobile',
+    items: ['React', 'TypeScript', 'React Native', 'Expo', 'Tailwind CSS', 'Redux/Zustand'],
   },
   {
-    title: 'Infra & Ops',
-    items: ['Linux/Windows Administration', 'Networking', 'ZeroTier', 'Virtualization'],
+    title: 'Backend & Data',
+    items: ['FastAPI', 'Node.js', 'Nest.js', 'Laravel (PHP)', 'REST APIs', 'OpenAPI/Swagger'],
   },
   {
-    title: 'Development',
-    items: ['TypeScript', 'Python', 'React', 'Astro', 'Node.js'],
+    title: 'DevOps & Platform',
+    items: ['Docker/Podman', 'Jenkins', 'GitHub Actions', 'Terraform', 'Ansible', 'Prometheus/Grafana'],
   },
   {
-    title: 'Automation',
-    items: ['PowerShell', 'Task Scheduler', 'GitHub Actions', 'Workflow Design'],
+    title: 'Security & QA',
+    items: ['SAST/DAST', 'OWASP Top 10', 'Burp Suite', 'Nuclei', 'Trivy/Hadolint', 'Selenium/JUnit/TestNG'],
   },
 ];

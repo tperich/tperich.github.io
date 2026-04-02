@@ -1,11 +1,8 @@
-@use '../../styles/colors.scss' as *;
+@use '@/styles/colors.scss' as *;
 
-.header {
+.hero {
     display: flex;
-    height: 100px;
-    width: 100vw;
 
-    position: fixed;
     justify-content: space-between;
     align-items: center;
 
