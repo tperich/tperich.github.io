@@ -16,49 +16,28 @@ import { config } from '@/config';
       }
     </nav>
 
-    <button class="mobile-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-nav">
-      Menu
-    </button>
+    <details class="mobile-menu" role="navigation">
+      <summary aria-label="Toggle menu">Menu</summary>
+      <div class="mobile-menu__panel">
+        {
+          config.nav.map((item) => (
+            <a href={item.href} class="mobile-menu__link">
+              {item.label}
+            </a>
+          ))
+        }
+      </div>
+    </details>
   </div>
-
-  <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile Primary">
-    {
-      config.nav.map((item) => (
-        <a href={item.href} class="mobile-nav__link">
-          {item.label}
-        </a>
-      ))
-    }
-  </nav>
 </header>
 
 <script>
-  const header = document.querySelector('.site-header');
-  const toggle = document.querySelector('.mobile-toggle');
-  const mobileNav = document.querySelector('#mobile-nav');
-
-  function closeMenu() {
-    if (!header || !toggle) return;
-    header.classList.remove('menu-open');
-    toggle.setAttribute('aria-expanded', 'false');
-  }
-
-  if (toggle && header && mobileNav) {
-    toggle.addEventListener('click', () => {
-      const isOpen = header.classList.toggle('menu-open');
-      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    });
-
-    mobileNav.querySelectorAll('a').forEach((a) => {
-      a.addEventListener('click', closeMenu);
-    });
-
-    window.addEventListener('resize', () => {
-      if (window.innerWidth > 760) closeMenu();
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeMenu();
+  const menu = document.querySelector('.mobile-menu');
+  if (menu) {
+    menu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        menu.removeAttribute('open');
+      });
     });
   }
 </script>
@@ -73,54 +52,101 @@ import { config } from '@/config';
   backdrop-filter: blur(10px);
   background: rgba(6, 7, 10, 0.75);
   border-bottom: 1px solid $color-border;
-
-  &__inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0.9rem 1.25rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-
-  &__brand {
-    color: $color-text-primary;
-    text-decoration: none;
-    font-weight: 700;
-    letter-spacing: 0.01em;
-  }
-
-  &__nav {
-    display: flex;
-    gap: 0.9rem;
-    flex-wrap: wrap;
-  }
-
-  &__link {
-    color: $color-text-secondary;
-    text-decoration: none;
-    font-size: 0.92rem;
-    transition: color 0.2s ease;
-
-    &:hover {
-      color: $color-accent;
-    }
-  }
 }
 
-.mobile-toggle {
+.site-header__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.9rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  position: relative;
+}
+
+.site-header__brand {
+  color: $color-text-primary;
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.site-header__nav {
+  display: flex;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+}
+
+.site-header__link {
+  color: $color-text-secondary;
+  text-decoration: none;
+  font-size: 0.92rem;
+  transition: color 0.2s ease;
+}
+
+.site-header__link:hover {
+  color: $color-accent;
+}
+
+.mobile-menu {
   display: none;
+  position: relative;
+}
+
+.mobile-menu > summary {
+  list-style: none;
+  cursor: pointer;
   border: 1px solid $color-border;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.02);
   color: $color-text-secondary;
   padding: 0.35rem 0.7rem;
   font-size: 0.85rem;
+  user-select: none;
 }
 
-.mobile-nav {
+.mobile-menu > summary::-webkit-details-marker {
   display: none;
+}
+
+.mobile-menu__panel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.45rem);
+  width: min(220px, calc(100vw - 2rem));
+  padding: 0.5rem;
+  border: 1px solid $color-border;
+  border-radius: 12px;
+  background: rgba(13, 17, 23, 0.96);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  display: grid;
+  gap: 0.2rem;
+
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.mobile-menu[open] .mobile-menu__panel {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.mobile-menu__link {
+  text-decoration: none;
+  color: $color-text-secondary;
+  padding: 0.55rem 0.65rem;
+  border-radius: 8px;
+  font-size: 0.92rem;
+}
+
+.mobile-menu__link:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: $color-accent;
 }
 
 @media (max-width: 760px) {
@@ -128,49 +154,8 @@ import { config } from '@/config';
     display: none;
   }
 
-  .mobile-toggle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .mobile-nav {
-    display: grid;
-    gap: 0.25rem;
-    position: absolute;
-    right: 0.95rem;
-    top: calc(100% + 0.45rem);
-    width: min(220px, calc(100vw - 1.9rem));
-    padding: 0.5rem;
-    border: 1px solid $color-border;
-    border-radius: 12px;
-    background: rgba(13, 17, 23, 0.96);
-    backdrop-filter: blur(8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
-
-    opacity: 0;
-    transform: translateY(-6px);
-    pointer-events: none;
-    transition: opacity 0.18s ease, transform 0.18s ease;
-
-    &__link {
-      text-decoration: none;
-      color: $color-text-secondary;
-      padding: 0.55rem 0.65rem;
-      border-radius: 8px;
-      font-size: 0.92rem;
-
-      &:hover {
-        background: rgba(255, 255, 255, 0.04);
-        color: $color-accent;
-      }
-    }
-  }
-
-  .site-header.menu-open .mobile-nav {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
+  .mobile-menu {
+    display: block;
   }
 }
 </style>
