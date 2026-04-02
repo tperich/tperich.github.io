@@ -26,6 +26,7 @@ export const projects: Project[] = [
     name: 'Mobile CI/CD Release Factory',
     description:
       'Production mobile release pipeline using Fastlane + Jenkins + automated tests (unit/integration/E2E) that helped ship and stabilize app-store releases.',
+    impact: 'Cuts release risk and manual overhead while increasing deployment speed and consistency.',
     stack: ['React Native', 'Fastlane', 'Jenkins', 'Detox'],
     status: 'internal',
   },

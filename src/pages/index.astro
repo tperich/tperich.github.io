@@ -7,7 +7,7 @@ import { skillGroups } from '@/content/skills';
 
 <Layout>
   <main id="top" class="page">
-    <section class="hero">
+    <section class="hero reveal">
       <div class="hero__glow" aria-hidden="true"></div>
       <p class="eyebrow">Full-Stack • DevOps • Security</p>
       <h1>
@@ -29,22 +29,22 @@ import { skillGroups } from '@/content/skills';
       </div>
 
       <div class="impact-grid" aria-label="Career highlights">
-        <article class="impact-card">
-          <div class="impact-card__num">95%+</div>
+        <article class="impact-card reveal">
+          <div class="impact-card__num"><span data-count="95">0</span>%+</div>
           <div class="impact-card__label">Automated test coverage on shipped mobile release pipeline</div>
         </article>
-        <article class="impact-card">
-          <div class="impact-card__num">~90%</div>
+        <article class="impact-card reveal">
+          <div class="impact-card__num">~<span data-count="90">0</span>%</div>
           <div class="impact-card__label">Infrastructure cost reduction after platform redesign</div>
         </article>
-        <article class="impact-card">
-          <div class="impact-card__num">300k+</div>
+        <article class="impact-card reveal">
+          <div class="impact-card__num"><span data-count="300">0</span>k+</div>
           <div class="impact-card__label">Websites protected by tuned WAF rules</div>
         </article>
       </div>
     </section>
 
-    <section id="about" class="section">
+    <section id="about" class="section reveal">
       <h2>About</h2>
       <p>
         I’m a Serbia-based engineer with hands-on experience across product delivery, DevOps, and security.
@@ -53,7 +53,7 @@ import { skillGroups } from '@/content/skills';
       </p>
     </section>
 
-    <section id="experience" class="section">
+    <section id="experience" class="section reveal">
       <h2>Experience Highlights</h2>
       <div class="timeline">
         <article class="timeline__item">
@@ -71,17 +71,21 @@ import { skillGroups } from '@/content/skills';
       </div>
     </section>
 
-    <section id="projects" class="section">
+    <section id="projects" class="section reveal">
       <h2>Projects</h2>
       <div class="project-grid">
         {
           projects.map((p) => (
-            <article class="card">
+            <article class="card reveal">
               <div class="card__top">
                 <h3>{p.name}</h3>
                 {p.status && <span class={`status status--${p.status}`}>{p.status}</span>}
               </div>
               <p>{p.description}</p>
+              <details class="impact-details">
+                <summary>Business impact</summary>
+                <p>{p.impact}</p>
+              </details>
               <div class="stack">
                 {p.stack.map((item) => (
                   <span>{item}</span>
@@ -98,12 +102,12 @@ import { skillGroups } from '@/content/skills';
       </div>
     </section>
 
-    <section id="skills" class="section">
+    <section id="skills" class="section reveal">
       <h2>Skills</h2>
       <div class="skills-grid">
         {
           skillGroups.map((group) => (
-            <article class="card">
+            <article class="card reveal">
               <h3>{group.title}</h3>
               <ul>
                 {group.items.map((skill) => (
@@ -116,7 +120,7 @@ import { skillGroups } from '@/content/skills';
       </div>
     </section>
 
-    <section id="contact" class="section section--contact">
+    <section id="contact" class="section section--contact reveal">
       <h2>Contact</h2>
       <p>
         Open to product engineering, DevOps/SRE, and security-focused roles. If you're building fast and want
@@ -131,6 +135,52 @@ import { skillGroups } from '@/content/skills';
   </main>
 </Layout>
 
+<script>
+  // Smooth anchor scrolling
+  document.querySelectorAll('a[href^="#"]').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      if (!href || href === '#') return;
+      const target = document.querySelector(href);
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // Reveal-on-scroll animation
+  const revealItems = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.12 }
+  );
+  revealItems.forEach((el) => io.observe(el));
+
+  // Counter animation for impact numbers
+  const counters = document.querySelectorAll('[data-count]');
+  counters.forEach((el) => {
+    const end = Number(el.getAttribute('data-count') || 0);
+    let start = 0;
+    const step = Math.max(1, Math.ceil(end / 28));
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= end) {
+        el.textContent = String(end);
+        clearInterval(timer);
+      } else {
+        el.textContent = String(start);
+      }
+    }, 22);
+  });
+</script>
+
 <style lang="scss">
 @use '@/styles/colors.scss' as *;
 
@@ -138,6 +188,17 @@ import { skillGroups } from '@/content/skills';
   max-width: 1120px;
   margin: 0 auto;
   padding: 2.2rem 1.25rem 5rem;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .hero {
@@ -203,7 +264,7 @@ import { skillGroups } from '@/content/skills';
 .section {
   padding: 3.2rem 0;
   border-top: 1px solid $color-border;
-  animation: fadeUp 0.7s ease both;
+
 
   h2 {
     color: $color-text-primary;
@@ -256,7 +317,6 @@ import { skillGroups } from '@/content/skills';
 .timeline__item {
   border-left: 2px solid rgba(163, 255, 63, 0.45);
   padding: 0.5rem 0 0.5rem 0.9rem;
-  animation: fadeUp 0.65s ease both;
 
   h3 {
     margin: 0 0 0.35rem;
@@ -445,34 +505,33 @@ import { skillGroups } from '@/content/skills';
 .skills-grid .card:nth-child(1),
 .timeline .timeline__item:nth-child(1),
 .impact-grid .impact-card:nth-child(1) {
-  animation-delay: 0.03s;
+  transition-delay: 0.03s;
 }
 
 .project-grid .card:nth-child(2),
 .skills-grid .card:nth-child(2),
 .timeline .timeline__item:nth-child(2),
 .impact-grid .impact-card:nth-child(2) {
-  animation-delay: 0.09s;
+  transition-delay: 0.09s;
 }
 
 .project-grid .card:nth-child(3),
 .skills-grid .card:nth-child(3),
 .timeline .timeline__item:nth-child(3),
 .impact-grid .impact-card:nth-child(3) {
-  animation-delay: 0.16s;
+  transition-delay: 0.16s;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero,
-  .section,
-  .card,
-  .timeline__item,
-  .impact-card {
-    animation: none;
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 
   .card,
-  .btn {
+  .btn,
+  .mobile-menu__panel {
     transition: none;
   }
 }
