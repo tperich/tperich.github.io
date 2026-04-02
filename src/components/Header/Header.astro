@@ -16,20 +16,52 @@ import { config } from '@/config';
       }
     </nav>
 
-    <details class="mobile-menu">
-      <summary>Menu</summary>
-      <div class="mobile-menu__panel">
-        {
-          config.nav.map((item) => (
-            <a href={item.href} class="mobile-menu__link">
-              {item.label}
-            </a>
-          ))
-        }
-      </div>
-    </details>
+    <button class="mobile-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-nav">
+      Menu
+    </button>
   </div>
+
+  <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile Primary">
+    {
+      config.nav.map((item) => (
+        <a href={item.href} class="mobile-nav__link">
+          {item.label}
+        </a>
+      ))
+    }
+  </nav>
 </header>
+
+<script>
+  const header = document.querySelector('.site-header');
+  const toggle = document.querySelector('.mobile-toggle');
+  const mobileNav = document.querySelector('#mobile-nav');
+
+  function closeMenu() {
+    if (!header || !toggle) return;
+    header.classList.remove('menu-open');
+    toggle.setAttribute('aria-expanded', 'false');
+  }
+
+  if (toggle && header && mobileNav) {
+    toggle.addEventListener('click', () => {
+      const isOpen = header.classList.toggle('menu-open');
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    mobileNav.querySelectorAll('a').forEach((a) => {
+      a.addEventListener('click', closeMenu);
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 760) closeMenu();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeMenu();
+    });
+  }
+</script>
 
 <style lang="scss">
 @use '../../styles/colors.scss' as *;
@@ -37,9 +69,9 @@ import { config } from '@/config';
 .site-header {
   position: sticky;
   top: 0;
-  z-index: 50;
-  backdrop-filter: blur(8px);
-  background: rgba(6, 7, 10, 0.72);
+  z-index: 70;
+  backdrop-filter: blur(10px);
+  background: rgba(6, 7, 10, 0.75);
   border-bottom: 1px solid $color-border;
 
   &__inner {
@@ -77,44 +109,18 @@ import { config } from '@/config';
   }
 }
 
-.mobile-menu {
+.mobile-toggle {
   display: none;
-  position: relative;
+  border: 1px solid $color-border;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  color: $color-text-secondary;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.85rem;
+}
 
-  summary {
-    list-style: none;
-    cursor: pointer;
-    color: $color-text-secondary;
-    border: 1px solid $color-border;
-    border-radius: 10px;
-    padding: 0.35rem 0.7rem;
-    font-size: 0.85rem;
-  }
-
-  &__panel {
-    position: absolute;
-    right: 0;
-    top: 2.3rem;
-    min-width: 160px;
-    background: $color-surface;
-    border: 1px solid $color-border;
-    border-radius: 12px;
-    padding: 0.45rem;
-    display: grid;
-    gap: 0.2rem;
-  }
-
-  &__link {
-    text-decoration: none;
-    color: $color-text-secondary;
-    padding: 0.4rem 0.55rem;
-    border-radius: 8px;
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.04);
-      color: $color-accent;
-    }
-  }
+.mobile-nav {
+  display: none;
 }
 
 @media (max-width: 760px) {
@@ -122,8 +128,49 @@ import { config } from '@/config';
     display: none;
   }
 
-  .mobile-menu {
-    display: block;
+  .mobile-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-nav {
+    display: grid;
+    gap: 0.25rem;
+    position: absolute;
+    right: 0.95rem;
+    top: calc(100% + 0.45rem);
+    width: min(220px, calc(100vw - 1.9rem));
+    padding: 0.5rem;
+    border: 1px solid $color-border;
+    border-radius: 12px;
+    background: rgba(13, 17, 23, 0.96);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+
+    &__link {
+      text-decoration: none;
+      color: $color-text-secondary;
+      padding: 0.55rem 0.65rem;
+      border-radius: 8px;
+      font-size: 0.92rem;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.04);
+        color: $color-accent;
+      }
+    }
+  }
+
+  .site-header.menu-open .mobile-nav {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
   }
 }
 </style>
