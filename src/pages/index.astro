@@ -8,6 +8,7 @@ import { skillGroups } from '@/content/skills';
 <Layout>
   <main id="top" class="page">
     <section class="hero">
+      <div class="hero__glow" aria-hidden="true"></div>
       <p class="eyebrow">Sysadmin • Security • Automation</p>
       <h1>
         Building <span>practical tools</span> for security workflows and personal infrastructure control.
@@ -96,31 +97,55 @@ import { skillGroups } from '@/content/skills';
 @use '@/styles/colors.scss' as *;
 
 .page {
-  max-width: 1100px;
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 2rem 1.25rem 4rem;
+  padding: 2.2rem 1.25rem 5rem;
 }
 
 .hero {
-  min-height: 62vh;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid $color-border;
+  border-radius: 24px;
+  background: radial-gradient(circle at 78% 10%, rgba(163, 255, 63, 0.16), transparent 40%),
+    linear-gradient(180deg, rgba(17, 24, 39, 0.62), rgba(13, 17, 23, 0.84));
+  min-height: 66vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 1.1rem;
+  padding: clamp(1.4rem, 3.5vw, 3rem);
   animation: fadeUp 0.6s ease both;
+
+  &__glow {
+    position: absolute;
+    right: -120px;
+    top: -120px;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    filter: blur(36px);
+    background: radial-gradient(circle, rgba(125, 255, 179, 0.24), rgba(125, 255, 179, 0));
+    pointer-events: none;
+  }
 
   .eyebrow {
     color: $color-accent-soft;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-size: 0.78rem;
+    letter-spacing: 0.09em;
+    font-size: 0.76rem;
+    position: relative;
+    z-index: 1;
   }
 
   h1 {
-    font-size: clamp(2rem, 6vw, 4.2rem);
-    line-height: 1.06;
+    font-size: clamp(2.05rem, 6vw, 4.35rem);
+    line-height: 1.04;
     margin: 0;
     color: $color-text-primary;
+    max-width: 15ch;
+    position: relative;
+    z-index: 1;
 
     span {
       color: $color-accent;
@@ -129,26 +154,30 @@ import { skillGroups } from '@/content/skills';
 
   .lead {
     max-width: 760px;
-    color: $color-text-secondary;
-    font-size: clamp(1rem, 2vw, 1.15rem);
-    line-height: 1.6;
+    color: #b6bdc9;
+    font-size: clamp(1rem, 2vw, 1.16rem);
+    line-height: 1.65;
+    position: relative;
+    z-index: 1;
   }
 }
 
 .section {
-  padding: 3rem 0;
+  padding: 3.2rem 0;
   border-top: 1px solid $color-border;
   animation: fadeUp 0.7s ease both;
 
   h2 {
     color: $color-text-primary;
     margin: 0 0 1rem;
-    font-size: 1.5rem;
+    font-size: clamp(1.4rem, 2.4vw, 1.8rem);
+    letter-spacing: -0.01em;
   }
 
   p {
-    color: $color-text-secondary;
-    line-height: 1.7;
+    color: #aab2bf;
+    line-height: 1.75;
+    max-width: 850px;
   }
 }
 
@@ -160,10 +189,18 @@ import { skillGroups } from '@/content/skills';
 }
 
 .card {
-  background: linear-gradient(180deg, rgba(17, 24, 39, 0.6), rgba(13, 17, 23, 0.8));
+  background: linear-gradient(180deg, rgba(17, 24, 39, 0.72), rgba(13, 17, 23, 0.9));
   border: 1px solid $color-border;
-  border-radius: 16px;
-  padding: 1rem;
+  border-radius: 18px;
+  padding: 1.05rem;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.26);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: rgba(163, 255, 63, 0.35);
+    box-shadow: 0 10px 36px rgba(0, 0, 0, 0.3);
+  }
 
   h3 {
     color: $color-text-primary;
@@ -172,7 +209,7 @@ import { skillGroups } from '@/content/skills';
 
   p,
   li {
-    color: $color-text-secondary;
+    color: #a7b0bd;
   }
 
   ul {
@@ -195,6 +232,10 @@ import { skillGroups } from '@/content/skills';
     color: $color-accent;
     text-decoration: none;
     font-size: 0.9rem;
+
+    &:hover {
+      color: #c4ff8f;
+    }
   }
 }
 
@@ -249,20 +290,22 @@ import { skillGroups } from '@/content/skills';
   padding: 0.62rem 1rem;
   border-radius: 12px;
   transition: all 0.2s ease;
+  background: rgba(255, 255, 255, 0.02);
 
   &:hover {
     border-color: $color-accent;
     color: $color-accent;
+    background: rgba(163, 255, 63, 0.06);
   }
 
   &--primary {
-    background: $color-accent;
+    background: linear-gradient(90deg, #a3ff3f, #91ff7f);
     color: #041106;
-    border-color: $color-accent;
-    font-weight: 600;
+    border-color: transparent;
+    font-weight: 700;
 
     &:hover {
-      background: #b6ff67;
+      background: linear-gradient(90deg, #b6ff67, #9eff8f);
       color: #041106;
     }
   }
@@ -283,10 +326,39 @@ import { skillGroups } from '@/content/skills';
   }
 }
 
+@media (max-width: 760px) {
+  .page {
+    padding: 1rem 0.95rem 3rem;
+  }
+
+  .hero {
+    min-height: auto;
+    border-radius: 18px;
+    padding: 1.1rem;
+
+    h1 {
+      max-width: none;
+    }
+  }
+
+  .cta-row {
+    width: 100%;
+
+    .btn {
+      flex: 1;
+      text-align: center;
+    }
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero,
   .section {
     animation: none;
+  }
+
+  .card {
+    transition: none;
   }
 }
 </style>
