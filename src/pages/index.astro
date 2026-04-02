@@ -27,6 +27,21 @@ import { skillGroups } from '@/content/skills';
         <span>SAST / DAST</span>
         <span>Security Engineering</span>
       </div>
+
+      <div class="impact-grid" aria-label="Career highlights">
+        <article class="impact-card">
+          <div class="impact-card__num">95%+</div>
+          <div class="impact-card__label">Automated test coverage on shipped mobile release pipeline</div>
+        </article>
+        <article class="impact-card">
+          <div class="impact-card__num">~90%</div>
+          <div class="impact-card__label">Infrastructure cost reduction after platform redesign</div>
+        </article>
+        <article class="impact-card">
+          <div class="impact-card__num">300k+</div>
+          <div class="impact-card__label">Websites protected by tuned WAF rules</div>
+        </article>
+      </div>
     </section>
 
     <section id="about" class="section">
@@ -36,6 +51,24 @@ import { skillGroups } from '@/content/skills';
         I’ve led mobile development from zero to app-store release, built CI/CD pipelines used across teams,
         and integrated security gates (SAST/DAST) into delivery flows without slowing shipping velocity.
       </p>
+    </section>
+
+    <section id="experience" class="section">
+      <h2>Experience Highlights</h2>
+      <div class="timeline">
+        <article class="timeline__item">
+          <h3>Full-Stack / DevOps Engineering</h3>
+          <p>Built CI/CD infrastructure, shipped React/TypeScript frontends, and integrated SAST/DAST into release pipelines for safer delivery.</p>
+        </article>
+        <article class="timeline__item">
+          <h3>DevSecOps & Platform Optimization</h3>
+          <p>Led infrastructure redesign improving reliability while reducing spend ~90%; delivered IaC with Terraform and internal ops tooling.</p>
+        </article>
+        <article class="timeline__item">
+          <h3>Mobile Product Delivery Leadership</h3>
+          <p>Led mobile app from scratch to App Store / Play Store with React Native, Fastlane + Jenkins, and 95%+ automated test coverage.</p>
+        </article>
+      </div>
     </section>
 
     <section id="projects" class="section">
@@ -183,6 +216,55 @@ import { skillGroups } from '@/content/skills';
     color: #aab2bf;
     line-height: 1.75;
     max-width: 850px;
+  }
+}
+
+.impact-grid {
+  margin-top: 1.2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 0.8rem;
+}
+
+.impact-card {
+  border: 1px solid rgba(163, 255, 63, 0.25);
+  background: linear-gradient(180deg, rgba(163, 255, 63, 0.08), rgba(13, 17, 23, 0.65));
+  border-radius: 14px;
+  padding: 0.85rem;
+
+  &__num {
+    color: $color-accent;
+    font-size: 1.45rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  &__label {
+    color: #aab2bf;
+    font-size: 0.88rem;
+    line-height: 1.45;
+  }
+}
+
+.timeline {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.timeline__item {
+  border-left: 2px solid rgba(163, 255, 63, 0.45);
+  padding: 0.5rem 0 0.5rem 0.9rem;
+
+  h3 {
+    margin: 0 0 0.35rem;
+    color: $color-text-primary;
+    font-size: 1rem;
+  }
+
+  p {
+    margin: 0;
+    max-width: none;
   }
 }
 
