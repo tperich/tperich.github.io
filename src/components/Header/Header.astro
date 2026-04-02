@@ -5,7 +5,8 @@ import { config } from '@/config';
 <header class="site-header">
   <div class="site-header__inner">
     <a href="#top" class="site-header__brand">{config.siteTitle}</a>
-    <nav class="site-header__nav" aria-label="Primary">
+
+    <nav class="site-header__nav desktop" aria-label="Primary">
       {
         config.nav.map((item) => (
           <a href={item.href} class="site-header__link">
@@ -14,6 +15,19 @@ import { config } from '@/config';
         ))
       }
     </nav>
+
+    <details class="mobile-menu">
+      <summary>Menu</summary>
+      <div class="mobile-menu__panel">
+        {
+          config.nav.map((item) => (
+            <a href={item.href} class="mobile-menu__link">
+              {item.label}
+            </a>
+          ))
+        }
+      </div>
+    </details>
   </div>
 </header>
 
@@ -60,6 +74,56 @@ import { config } from '@/config';
     &:hover {
       color: $color-accent;
     }
+  }
+}
+
+.mobile-menu {
+  display: none;
+  position: relative;
+
+  summary {
+    list-style: none;
+    cursor: pointer;
+    color: $color-text-secondary;
+    border: 1px solid $color-border;
+    border-radius: 10px;
+    padding: 0.35rem 0.7rem;
+    font-size: 0.85rem;
+  }
+
+  &__panel {
+    position: absolute;
+    right: 0;
+    top: 2.3rem;
+    min-width: 160px;
+    background: $color-surface;
+    border: 1px solid $color-border;
+    border-radius: 12px;
+    padding: 0.45rem;
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  &__link {
+    text-decoration: none;
+    color: $color-text-secondary;
+    padding: 0.4rem 0.55rem;
+    border-radius: 8px;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.04);
+      color: $color-accent;
+    }
+  }
+}
+
+@media (max-width: 760px) {
+  .site-header__nav.desktop {
+    display: none;
+  }
+
+  .mobile-menu {
+    display: block;
   }
 }
 </style>
